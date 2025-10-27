@@ -28,7 +28,7 @@ jobs:
 
 # Job 2: Run Tests
   test:
-    name: "Run Artisan Tests"
+    name: "Run Tests"
     runs-on: ubuntu-latest
     needs: lint 
 
@@ -54,7 +54,7 @@ jobs:
       - name: Start Sail
         run: ./vendor/bin/sail up -d
 
-      - name: Wait for MySQL
+      - name: Test (with DB service)
         run: |
           echo "Waiting for MySQL to be healthy..."
           for i in {1..30}; do
