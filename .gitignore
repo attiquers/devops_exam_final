@@ -1,0 +1,71 @@
+# Laravel specific
+/vendor/
+node_modules/
+public/storage
+storage/*.key
+.env
+.env.backup
+.env.*.backup
+.env.local
+.env.development
+.env.production
+Homestead.yaml
+Homestead.json
+/.vagrant
+
+# Laravel Sail / Docker
+docker-compose.override.yml
+docker-compose.yml
+sail
+sail.*
+.env.sail
+
+# Laravel cache & compiled files
+/bootstrap/cache/*.php
+/storage/*.sqlite
+/storage/logs/*.log
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+
+# IDE / Editor files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# OS-specific
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# NPM/Yarn/PNPM lock files (optional if you want reproducible builds)
+# Uncomment ONE of these if you don’t want to commit lock files
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# PHPUnit
+.phpunit.result.cache
+.phpunit.cache
+/tests/.phpunit.cache
+
+# Composer vendor autoload (regenerated)
+composer.lock
+
+# Logs
+*.log
+
+# Backup or temporary files
+*.bak
+*.tmp
+*.swp
+*.zip
+*.tar.gz
+*.env.save
+
+# Cache
+.cache/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
