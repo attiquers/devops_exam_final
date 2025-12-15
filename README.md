@@ -1,4 +1,4 @@
-# 🚀 Laravel To-Do Application BY FASIH, SAQIB, ATTIQUE
+# 🚀 FINAL Laravel To-Do Application BY FASIH, SAQIB, ATTIQUE
 
 A fully containerized *Laravel* application for managing To-Do lists, featuring user registration, login, and full *CRUD* (Create, Read, Update, Delete) functionality for tasks. The entire development environment is managed by *Laravel Sail* and *Docker*.
 
