@@ -1,3 +1,72 @@
+##################################
+# Terraform (CRITICAL)
+##################################
+# Terraform working directory
+**/.terraform/*
+.terraform/
+
+# Terraform state files (NEVER COMMIT)
+*.tfstate
+*.tfstate.*
+terraform.tfstate
+terraform.tfstate.backup
+
+
+
+
+# Terraform lock file (optional – usually OK to commit)
+# Uncomment if you do NOT want it tracked
+# .terraform.lock.hcl
+
+# Terraform logs
+crash.log
+crash.*.log
+
+##################################
+# Docker
+##################################
+# Docker local override files
+docker-compose.override.yml
+
+# Docker build artifacts
+*.pid
+
+##################################
+# Kubernetes
+##################################
+# Local kube configs
+.kube/
+kubeconfig
+kubeconfig.*
+
+##################################
+# Node / Frontend build output
+##################################
+dist/
+build/
+.next/
+out/
+
+##################################
+# OS / Windows-specific
+##################################
+Thumbs.db
+ehthumbs.db
+Icon?
+$RECYCLE.BIN/
+
+##################################
+# Misc DevOps / CI
+##################################
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.pfx
+*.ppk
+
+
 # Laravel specific
 /vendor/
 node_modules/
