@@ -1,0 +1,72 @@
+# ==========================================
+# STAGE 1: Build Dependencies
+# ==========================================
+FROM composer:2.6 AS vendor
+
+WORKDIR /app
+COPY composer.json composer.lock ./
+
+RUN composer install \
+    --no-dev \
+    --no-interaction \
+    --prefer-dist \
+    --ignore-platform-reqs \
+    --optimize-autoloader \
+    --no-scripts
+
+# ==========================================
+# STAGE 2: Build Frontend Assets
+# ==========================================
+FROM node:20 AS frontend
+
+WORKDIR /app
+COPY package.json vite.config.js ./
+COPY . . 
+RUN npm install && npm run build
+
+# ==========================================
+# STAGE 3: Production Image
+# ==========================================
+FROM php:8.2-apache
+
+# 1. Install system dependencies
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    zip \
+    unzip \
+    curl \
+    libzip-dev \
+    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# 2. Enable Apache mod_rewrite
+RUN a2enmod rewrite
+
+# 3. Configure Apache DocumentRoot
+ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
+
+# --- CRITICAL FIX: Allow .htaccess to work ---
+RUN sed -i 's/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
+# ---------------------------------------------
+
+WORKDIR /var/www/html
+
+# 4. Copy App Files
+COPY . .
+
+# 5. Copy Vendor & Build Artifacts
+COPY --from=vendor /app/vendor ./vendor
+COPY --from=frontend /app/public/build ./public/build
+
+# 6. Set Permissions
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 775 /var/www/html/storage \
+    && chmod -R 775 /var/www/html/bootstrap/cache
+
+EXPOSE 80
+
+CMD ["apache2-foreground"]
